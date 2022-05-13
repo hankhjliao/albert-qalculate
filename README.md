@@ -18,12 +18,14 @@
 
 ## Getting Started
 
-1. Clone this repository to `~/.local/share/albert/org.albert.extension.python/modules`:
+1. Install [Qalculate CLI](https://qalculate.github.io/index.html)
+
+2. Clone this repository to `~/.local/share/albert/org.albert.extension.python/modules`:
    ```
    git clone https://github.com/hankliao87/albert-qalculate.git $HOME/.local/share/albert/org.albert.extension.python/modules/qalculate
    ```
 
-2. Enable `Qalculate!` plugin in `albert settings - Extensions - Python`
+3. Enable `Qalculate!` plugin in `albert settings - Extensions - Python`
 
 ## Usage
 
