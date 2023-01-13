@@ -46,7 +46,7 @@ class Plugin(QueryHandler):
             item.text = "Enter an expression"
             item.subtext = ""
             query.add(item)
-            return
+
         else:
             try:
                 proc_result = subprocess.run(['qalc', '-s', 'upxrates 0', '-t', query_string], stdout=subprocess.PIPE, text=True, timeout=10)
@@ -54,6 +54,25 @@ class Plugin(QueryHandler):
 
                 result = proc_result.stdout.replace('\n','')
                 result_with_expression = proc_expression.stdout.replace('\n','')
+
+                item = Item(
+                    id=__name__,
+                    icon=self.iconPath,
+                    actions=[
+                        Action(
+                            id="copy-clipboard",
+                            text="Copy result to clipboard",
+                            callable=lambda u=str(result): setClipboardText(u)),
+                        Action(
+                            id="copy-clipboard-expression",
+                            text="Copy result with expression to clipboard",
+                            callable=lambda u=str(result_with_expression): setClipboardText(u)),
+                    ]
+                )
+                item.text = str(result)
+                item.subtext = query_string
+                query.add(item)
+
             except Exception as ex:
                 item = Item(
                     id=__name__,
@@ -72,23 +91,3 @@ class Plugin(QueryHandler):
                 item.text = "Error: " + str(ex)
                 item.subtext = f"Please create an issue in {md_url}"
                 query.add(item)
-                return
-
-            item = Item(
-                id=__name__,
-                icon=self.iconPath,
-                actions=[
-                    Action(
-                        id="copy-clipboard",
-                        text="Copy result to clipboard",
-                        callable=lambda u=str(result): setClipboardText(u)),
-                    Action(
-                        id="copy-clipboard-expression",
-                        text="Copy result with expression to clipboard",
-                        callable=lambda u=str(result_with_expression): setClipboardText(u)),
-                ]
-            )
-            item.text = str(result)
-            item.subtext = query_string
-            query.add(item)
-            return
